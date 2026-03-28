@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>iPhone 17</title>
+</head>
+
+<body style="background:black;color:white;text-align:center;font-family:Arial;">
+
+<h2>Şifre gir</h2>
+
+<input id="sifre" placeholder="01010111">
+<br><br>
+<button onclick="kontrol()">Giriş</button>
+
+<div id="icerik" style="display:none;">
+<h1>iPhone 17 Pro Max</h1>
+
+<img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=800" width="250">
+
+<h2 id="fiyat">119.999 TL</h2>
+</div>
+
+<script>
+function kontrol(){
+var s = document.getElementById("sifre").value;
+
+if(s === "01010111"){
+document.getElementById("icerik").style.display = "block";
+
+setTimeout(function(){
+document.getElementById("fiyat").innerText = "200 TL";
+},2000);
+
+}else{
+alert("Yanlış şifre!");
+}
+}
+</script>
+
+</body>
+</html>
