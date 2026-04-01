@@ -1,18 +1,165 @@
 <!DOCTYPE html>
-<html>
-<body style="background:black;color:white;text-align:center;font-family:Arial;">
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Paneli | iPhone 17 Pro Max</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            color: #0F0; /* Matrix Yeşili */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-<h1>iPhone 17 Pro Max</h1>
+        #bgCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
 
-<img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop" width="250" style="border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.5);"> 
+        /* Giriş Ekranı Tasarımı */
+        #login-screen {
+            z-index: 10;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border: 2px solid #0F0;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #0F0;
+        }
 
-<h2 id="fiyat">119.999 TL</h2>
+        input {
+            background: black;
+            border: 1px solid #0F0;
+            color: #0F0;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            margin-top: 15px;
+        }
 
-<script>
-setTimeout(function(){
-document.getElementById("fiyat").innerText = "200 TL";
-},2000);
-</script>
+        button {
+            background: #0F0;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #008000;
+        }
+
+        /* Ana İçerik (Başlangıçta Gizli) */
+        #main-content {
+            display: none; /* Şifre girilene kadar gizli */
+            z-index: 1;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        img {
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.3);
+        }
+
+        .error-msg {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bgCanvas"></canvas>
+
+    <div id="login-screen">
+        <h2>SİSTEME ERİŞİM</h2>
+        <p>Lütfen Protokol Şifresini Giriniz:</p>
+        <input type="password" id="passInput" placeholder="********">
+        <br>
+        <button onclick="checkPassword()">ERİŞİM SAĞLA</button>
+        <p id="error" class="error-msg">HATALI ŞİFRE! ERİŞİM REDDEDİLDİ.</p>
+    </div>
+
+    <div id="main-content">
+        <h1 style="color: #0F0;">ERİŞİM ONAYLANDI</h1>
+        <h1>iPhone 17 Pro Max</h1>
+        <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop" width="250">
+        <h2 id="fiyat" style="margin-top: 20px;">119.999 TL</h2>
+    </div>
+
+    <script>
+        // --- Matrix Arka Plan ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const characters = '01';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 35);
+
+        // --- Şifre Kontrolü ---
+        function checkPassword() {
+            const input = document.getElementById("passInput").value;
+            const error = document.getElementById("error");
+            
+            if (input === "01010111") {
+                // Giriş ekranını gizle, içeriği göster
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+
+                // Fiyat düşme tetikleyicisi (Erişim sağlandıktan 2 saniye sonra)
+                setTimeout(function() {
+                    document.getElementById("fiyat").innerText = "200 TL";
+                    document.getElementById("fiyat").style.color = "#0F0"; // Fiyat düşünce yeşil olsun
+                }, 2000);
+            } else {
+                error.style.display = "block";
+                document.getElementById("passInput").value = ""; // Kutuyu temizle
+            }
+        }
+
+        // "Enter" tuşuyla giriş yapabilme özelliği
+        document.getElementById("passInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
 
 </body>
 </html>
