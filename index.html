@@ -23,7 +23,7 @@ body {
     z-index:0;
 }
 
-/* ÜST MENÜ */
+/* MENÜ */
 .nav {
     position:fixed;
     top:0;
@@ -32,7 +32,6 @@ body {
     padding:15px;
     text-align:center;
     z-index:20;
-    backdrop-filter: blur(10px);
 }
 
 /* GİRİŞ */
@@ -43,18 +42,7 @@ body {
     margin-top:120px;
 }
 
-input {
-    padding:10px;
-    margin-top:10px;
-}
-
-button {
-    padding:10px 20px;
-    margin-top:10px;
-    cursor:pointer;
-}
-
-/* ANA İÇERİK */
+/* ANA */
 #main-content {
     display:none;
     position:relative;
@@ -63,10 +51,12 @@ button {
     margin-top:120px;
 }
 
-img {
+/* FOTO */
+.phone {
     width:260px;
-    border-radius:20px;
     margin-top:20px;
+    border-radius:30px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.9);
 }
 
 /* SON 1 ADET */
@@ -80,7 +70,7 @@ img {
     50% { opacity:0; }
 }
 
-/* FİYAT TİTREME */
+/* SHAKE */
 .shake {
     animation: shake 0.4s;
 }
@@ -93,27 +83,22 @@ img {
     100%{transform:translateX(0);}
 }
 
-/* BUTON */
 .buy-btn {
     background:lime;
     color:black;
     padding:15px;
     margin-top:20px;
     border:none;
-    font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- MATRIX -->
 <canvas id="bgCanvas"></canvas>
 
-<!-- MENÜ -->
 <div class="nav"> Apple Store</div>
 
-<!-- GİRİŞ -->
 <div id="login-screen">
 <h2>Şifre gir</h2>
 <input type="password" id="passInput">
@@ -122,11 +107,11 @@ img {
 <p id="error" style="color:red;display:none;">Hatalı şifre!</p>
 </div>
 
-<!-- ANA SAYFA -->
 <div id="main-content">
 <h1>iPhone 17 Pro Max</h1>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Apple_iPhone_15_Pro_Max_Blue_Titanium.svg">
+<!-- FOTO BURADA -->
+<img class="phone" src="https://images.unsplash.com/photo-1702743656893-9f7e9d6c6f52?q=80&w=800&auto=format&fit=crop">
 
 <p class="stock">⚠️ SON 1 ADET!</p>
 
@@ -139,7 +124,6 @@ img {
 // MATRIX
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -164,10 +148,9 @@ function drawMatrix(){
         drops[i]++;
     }
 }
-
 setInterval(drawMatrix,35);
 
-window.addEventListener("resize", function(){
+window.addEventListener("resize", ()=>{
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
@@ -190,14 +173,14 @@ function checkPassword(){
     }
 }
 
-// ENTER TUŞU
+// ENTER
 document.getElementById("passInput").addEventListener("keyup", function(e){
     if(e.key==="Enter"){
         checkPassword();
     }
 });
 
-// SAHTE SATIN AL
+// FAKE SATIN AL
 function fakeBuy(){
     alert("ÖDEME BAŞARISIZ ❌");
 }
@@ -205,7 +188,6 @@ function fakeBuy(){
 
 </body>
 </html>
-  
    
    
 
