@@ -1,3 +1,5 @@
+
+    
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -32,6 +34,7 @@ body {
     padding:15px;
     text-align:center;
     z-index:20;
+    backdrop-filter: blur(10px);
 }
 
 /* GİRİŞ */
@@ -49,17 +52,35 @@ body {
     z-index:10;
     text-align:center;
     margin-top:120px;
+    animation: fadeIn 1s;
 }
 
-/* FOTO */
-.phone {
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+/* FOTO YERİ */
+.phone-placeholder {
     width:260px;
-    margin-top:20px;
+    height:500px;
+    margin:20px auto;
     border-radius:30px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.9);
+    border:2px dashed gray;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:gray;
+    font-size:14px;
+    transition:0.3s;
 }
 
-/* SON 1 ADET */
+.phone-placeholder:hover {
+    transform:scale(1.05);
+    border-color:white;
+}
+
+/* SON 1 */
 .stock {
     color:red;
     font-weight:bold;
@@ -70,7 +91,7 @@ body {
     50% { opacity:0; }
 }
 
-/* SHAKE */
+/* FİYAT */
 .shake {
     animation: shake 0.4s;
 }
@@ -83,12 +104,21 @@ body {
     100%{transform:translateX(0);}
 }
 
+/* BUTON */
 .buy-btn {
     background:lime;
     color:black;
     padding:15px;
     margin-top:20px;
     border:none;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.buy-btn:hover {
+    background:#00cc00;
+    transform:scale(1.05);
 }
 </style>
 </head>
@@ -100,18 +130,19 @@ body {
 <div class="nav"> Apple Store</div>
 
 <div id="login-screen">
-<h2>Şifre gir</h2>
-<input type="password" id="passInput">
+<h2>🔐 Güvenlik Girişi</h2>
+<input type="password" id="passInput" placeholder="Şifre gir">
 <br>
 <button onclick="checkPassword()">GİRİŞ</button>
-<p id="error" style="color:red;display:none;">Hatalı şifre!</p>
+<p id="error" style="color:red;display:none;">❌ Hatalı şifre!</p>
 </div>
 
 <div id="main-content">
 <h1>iPhone 17 Pro Max</h1>
 
-<!-- ✅ SAĞLAM FOTO (KESİN ÇALIŞIR) -->
-<img class="phone" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/IPhone_14_Pro_Max.svg/512px-IPhone_14_Pro_Max.svg.png">
+<div class="phone-placeholder">
+📱 FOTO BURAYA EKLENECEK
+</div>
 
 <p class="stock">⚠️ SON 1 ADET!</p>
 
@@ -158,11 +189,19 @@ window.addEventListener("resize", ()=>{
     resizeCanvas();
 });
 
+// SES
+function playSound(){
+    const audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+    audio.play();
+}
+
 // ŞİFRE
 function checkPassword(){
     const val = document.getElementById("passInput").value;
 
     if(val === "01010111"){
+        playSound();
+
         document.getElementById("login-screen").style.display="none";
         document.getElementById("main-content").style.display="block";
 
@@ -184,14 +223,12 @@ document.getElementById("passInput").addEventListener("keyup", function(e){
     }
 });
 
-// FAKE SATIN AL
+// SAHTE SATIN AL
 function fakeBuy(){
-    alert("ÖDEME BAŞARISIZ ❌");
+    playSound();
+    alert("💳 ÖDEME REDDEDİLDİ!");
 }
 </script>
 
 </body>
 </html>
-   
-
-    
